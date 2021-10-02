@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GoalsApp</string>
+    <string name="password">Senha</string>
+    <string name="name">Nome</string>
+    <string name="sign_in">Logar-se</string>
+    <string name="no_goals_message">Você não possuí metas no momento...</string>
+    <string name="descri_o">Descrição</string>
+    <string name="dificuldade">Dificuldade</string>
+    <string name="data">Data</string>
+    <string name="status">Status</string>
+</resources>
