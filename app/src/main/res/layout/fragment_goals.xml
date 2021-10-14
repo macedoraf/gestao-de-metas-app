@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/horizontal_margin">
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/fl_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,17 +25,17 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_goals"
-                isVisible="@{viewState.hasGoals}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+
             <TextView
-                isVisible="@{!viewState.hasGoals}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_goals_message"
-                android:textSize="22sp" />
-        </FrameLayout>
+                android:textSize="22sp"
+                android:visibility="gone" />
+        </RelativeLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

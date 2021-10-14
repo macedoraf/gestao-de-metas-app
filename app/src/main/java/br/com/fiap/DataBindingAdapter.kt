@@ -15,7 +15,7 @@ abstract class DataBindingAdapter(private val items: List<Any>) :
     abstract val layoutResource: Int
 
     override fun onBindViewHolder(holder: DataBindingViewHolder, position: Int) {
-        holder.bind(items)
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int = items.size
@@ -33,7 +33,7 @@ abstract class DataBindingAdapter(private val items: List<Any>) :
 
 }
 
-class DataBindingViewHolder(private val binding: ViewDataBinding) :
+class DataBindingViewHolder(val binding: ViewDataBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Any) {
         binding.setVariable(BR.item, item)

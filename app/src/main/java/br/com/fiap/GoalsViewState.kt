@@ -1,5 +1,6 @@
 package br.com.fiap
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 
@@ -7,7 +8,7 @@ class GoalsViewState {
 
     val goals: MutableLiveData<List<ItemViewGoal>> = MutableLiveData()
 
-    val hasGoals = Transformations.map(goals) {
+    val hasGoals: LiveData<Boolean> = Transformations.map(goals) {
         it.isNotEmpty()
     }
 

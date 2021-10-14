@@ -1,15 +1,17 @@
-package br.com.fiap
+package br.com.fiap.repository
 
 import android.util.Log
+import br.com.fiap.Provider
+import br.com.fiap.Session
+import br.com.fiap.URLs
 import com.google.gson.GsonBuilder
 import okhttp3.Request
-import org.json.JSONObject
 
 object LoginRepository {
 
-    suspend fun request(name: String, password: String): LoginResult {
+    suspend fun request(funcional: String, password: String): LoginResult {
         val request = Request.Builder()
-            .url(URLs.LOGIN + "?name=$name&password=$password")
+            .url(URLs.LOGIN + "?funcional=$funcional&password=$password")
             .get().build()
 
         val response = Provider.request(request)
@@ -24,6 +26,8 @@ object LoginRepository {
 
         return LoginResult.Invalid
     }
+
+
 
     sealed class LoginResult {
         object Logged : LoginResult()

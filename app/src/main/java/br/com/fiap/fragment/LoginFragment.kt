@@ -1,10 +1,13 @@
-package br.com.fiap
+package br.com.fiap.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.fiap.LoginView
+import br.com.fiap.LoginViewModel
+import br.com.fiap.MainActivity
 import br.com.fiap.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment(), LoginView {

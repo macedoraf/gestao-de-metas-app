@@ -2,7 +2,7 @@ package br.com.fiap
 
 object Session {
     var password = ""
-    var name = ""
+    var funcional = ""
     var user: User? = null
 
     data class User(
@@ -18,7 +18,8 @@ object Session {
         val descricao: String,
         val data: String,
         val dificuldade: String,
-        val status: String
+        val status: String,
+        val empresa: Empresa?
     )
 
     data class Status(val status: String)
