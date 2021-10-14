@@ -27,6 +27,16 @@ class GoalsViewModel : ViewModel() {
         }
     }
 
+    fun terminateGoal(goalId: Long) {
+        GlobalScope.launch(Dispatchers.IO) {
+            Session.user?.id?.let {
+                repository.terminateGoal(
+                    idGoal = goalId, idFuncio = it
+                )
+            }
+        }
+    }
+
     fun requireGoals() {
         GlobalScope.launch(Dispatchers.IO) {
             (repository.requestAllGoals() as? GoalsRepository.GoalsResult.Success)?.let { success ->

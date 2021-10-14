@@ -7,4 +7,7 @@ object URLs {
     const val FUNCIONARIO = "$BASE/funcionario"
     const val GOALS = "$BASE/meta"
     const val ASSOCIATE_GOAL = "$BASE/funcionario/add-meta"
+    const val TERMINATE_GOAL = "$BASE/funcionario/terminate"
+
+
 }

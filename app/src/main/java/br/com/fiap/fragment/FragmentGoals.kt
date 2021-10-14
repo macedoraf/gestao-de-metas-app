@@ -49,6 +49,8 @@ class FragmentGoals : Fragment() {
         viewModel.viewState.myGoals.observe(viewLifecycleOwner) {
             binding.rvByGoals.adapter = GoalAdapter(goals = it, addGoalAction = { position ->
                 viewModel.associateWithGoal(it[position].id)
+            }, terminateAction = { position ->
+                viewModel.terminateGoal(it[position].id)
             })
         }
 

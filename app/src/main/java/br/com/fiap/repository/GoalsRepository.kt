@@ -64,6 +64,24 @@ object GoalsRepository {
         return false
     }
 
+    suspend fun terminateGoal(idGoal: Long, idFuncio: Long): Boolean {
+        val requestBody = JSONObject().apply {
+            put("idGoal", "$idGoal")
+            put("idFunc", idFuncio)
+        }.toString().toRequestBody("application/json".toMediaType())
+
+        val request = Request.Builder()
+            .url(URLs.TERMINATE_GOAL)
+            .post(requestBody).build()
+
+        val response = Provider.request(request)
+        if (response.code == 200) {
+            LoginRepository.request(Session.funcional, Session.password)
+            return true
+        }
+        return false
+    }
+
     sealed class GoalsResult {
         data class Success(val goals: List<Meta>) : GoalsResult()
         object Error : GoalsResult()
