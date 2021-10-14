@@ -95,11 +95,27 @@
                     android:text="@{item.status}" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/bt_get_goal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pegar_meta" />
+
+            <FrameLayout
+                isVisible="@{!item.done}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/bt_get_goal"
+                    isVisible="@{item.canBeAssociate}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pegar_meta" />
+
+                <Button
+                    android:id="@+id/bt_done"
+                    isVisible="@{item.canBeDone}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Terminar meta" />
+            </FrameLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

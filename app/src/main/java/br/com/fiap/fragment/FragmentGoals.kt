@@ -37,19 +37,41 @@ class FragmentGoals : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.rvGoals.layoutManager =
             LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvByGoals.layoutManager =
+            LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
 
         viewModel.viewState.goals.observe(viewLifecycleOwner) {
-            binding.rvGoals.adapter = GoalAdapter(goals = it)
+            binding.rvGoals.adapter = GoalAdapter(goals = it, addGoalAction = { position ->
+                viewModel.associateWithGoal(it[position].id)
+            })
         }
 
-        navigationBar?.onItemChangeListener =
-            { viewModel.requireGoals(navigationBar?.isMyGoalsSelected ?: true) }
+        viewModel.viewState.myGoals.observe(viewLifecycleOwner) {
+            binding.rvByGoals.adapter = GoalAdapter(goals = it, addGoalAction = { position ->
+                viewModel.associateWithGoal(it[position].id)
+            })
+        }
+
+        binding.rvByGoals.visibility = View.VISIBLE
+        binding.rvGoals.visibility = View.GONE
+
+        navigationBar?.onItemChangeListener = {
+            viewModel.requireGoals()
+            if (navigationBar?.isMyGoalsSelected == true) {
+                binding.rvByGoals.visibility = View.VISIBLE
+                binding.rvGoals.visibility = View.GONE
+            } else {
+                binding.rvGoals.visibility = View.VISIBLE
+                binding.rvByGoals.visibility = View.GONE
+
+            }
+        }
     }
 
 
     override fun onResume() {
         super.onResume()
-        viewModel.requireGoals(navigationBar?.isMyGoalsSelected ?: true)
+        viewModel.requireGoals()
     }
 
 }

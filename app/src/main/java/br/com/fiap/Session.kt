@@ -15,6 +15,7 @@ object Session {
     )
 
     data class Meta(
+        val id: Long,
         val descricao: String,
         val data: String,
         val dificuldade: String,

@@ -1,22 +1,20 @@
 package br.com.fiap
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 
 class GoalsViewState {
 
     val goals: MutableLiveData<List<ItemViewGoal>> = MutableLiveData()
-
-    val hasGoals: LiveData<Boolean> = Transformations.map(goals) {
-        it.isNotEmpty()
-    }
-
+    val myGoals: MutableLiveData<List<ItemViewGoal>> = MutableLiveData()
 
     data class ItemViewGoal(
+        val id: Long,
         val description: String,
         val date: String,
         val difficulty: String,
-        val status: String
+        val status: String,
+        val canBeAssociate: Boolean,
+        val canBeDone: Boolean,
+        val isDone: Boolean
     )
 }

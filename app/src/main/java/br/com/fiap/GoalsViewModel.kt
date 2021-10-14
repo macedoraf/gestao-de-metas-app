@@ -2,6 +2,8 @@ package br.com.fiap
 
 import androidx.lifecycle.ViewModel
 import br.com.fiap.repository.GoalsRepository
+import br.com.fiap.repository.LoginRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -11,33 +13,55 @@ class GoalsViewModel : ViewModel() {
 
     private val repository = GoalsRepository
 
-    fun requireGoals(isMyGoals: Boolean) {
-        if (isMyGoals) {
-            Session.user?.metas?.let { list ->
-                val goals = list.map {
-                    GoalsViewState.ItemViewGoal(it.descricao, it.data, it.dificuldade, it.status)
-                }
+    private val myGoals: ArrayList<GoalsViewState.ItemViewGoal> = arrayListOf()
 
-                viewState.goals.value = goals
-            }
-        } else {
-            GlobalScope.launch {
-                val result = repository.requestAllGoals()
+    private val allGoals: ArrayList<GoalsViewState.ItemViewGoal> = arrayListOf()
 
-                if (result is GoalsRepository.GoalsResult.Success) {
-                    val goals =
-                        result.goals.filter { it.empresa?.cnpj == Session.user?.empresa?.cnpj }
-                            .map {
-                                GoalsViewState.ItemViewGoal(
-                                    it.descricao,
-                                    it.data,
-                                    it.dificuldade,
-                                    it.status
-                                )
-                            }
-                    viewState.goals.postValue(goals)
-                }
+    fun associateWithGoal(goalId: Long) {
+        GlobalScope.launch(Dispatchers.IO) {
+            Session.user?.id?.let {
+                repository.associateGoal(
+                    idGoal = goalId, idFuncio = it
+                )
             }
         }
     }
+
+    fun requireGoals() {
+        GlobalScope.launch(Dispatchers.IO) {
+            (repository.requestAllGoals() as? GoalsRepository.GoalsResult.Success)?.let { success ->
+                allGoals.clear()
+                success.goals.forEach { it ->
+                    if (it.empresa?.cnpj == Session.user?.empresa?.cnpj) {
+                        allGoals.add(it.mapTo(true))
+                    }
+                }
+            }
+
+            (repository.requestMyGoals() as? GoalsRepository.GoalsResult.Success)?.let { success ->
+                myGoals.clear()
+                success.goals.forEach { it ->
+                    if (it.empresa?.cnpj == Session.user?.empresa?.cnpj) {
+                        myGoals.add(it.mapTo(false))
+                    }
+                }
+            }
+
+            viewState.goals.postValue(allGoals)
+            viewState.myGoals.postValue(myGoals)
+        }
+    }
+
+    private fun Session.Meta.mapTo(canBeAssociate: Boolean): GoalsViewState.ItemViewGoal =
+        GoalsViewState.ItemViewGoal(
+            id,
+            descricao,
+            data,
+            dificuldade,
+            status,
+            canBeAssociate,
+            !canBeAssociate,
+            status.contains("Feito")
+        )
+
 }

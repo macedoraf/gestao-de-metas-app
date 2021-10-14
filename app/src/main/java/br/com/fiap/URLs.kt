@@ -6,4 +6,5 @@ object URLs {
     const val LOGIN = "$BASE/funcionario/login"
     const val FUNCIONARIO = "$BASE/funcionario"
     const val GOALS = "$BASE/meta"
+    const val ASSOCIATE_GOAL = "$BASE/funcionario/add-meta"
 }
